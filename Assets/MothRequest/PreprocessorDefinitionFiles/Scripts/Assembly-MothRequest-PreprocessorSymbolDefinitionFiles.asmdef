@@ -1,6 +1,5 @@
 {
-    "name": "Assembly-Ganymed-PreprocessorDefinitionSymbols-Editor",
-    "rootNamespace": "",
+    "name": "Assembly-MothRequest-PreprocessorSymbolDefinitionFiles",
     "references": [],
     "includePlatforms": [
         "Editor"
@@ -9,7 +8,7 @@
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": false,
+    "autoReferenced": true,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false
