@@ -606,7 +606,7 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLWasmStreaming: 0
   scriptingDefineSymbols:
-    1: DEBUG;DEBUG_OPT_A;DEBUG_OPT_B;EXAMPLE_A;EXAMPLE_C;PREPROCESSOR_DEFINITION
+    1: EXAMPLE_A;EXAMPLE_C;PREPROCESSOR_DEFINITION
   platformArchitecture: {}
   scriptingBackend: {}
   il2cppCompilerConfiguration: {}

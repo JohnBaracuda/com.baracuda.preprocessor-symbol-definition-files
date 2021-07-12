@@ -163,14 +163,9 @@ namespace MothRequest.PreprocessorDefinitionFiles.InspectorGUI
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button("Apply", GUILayout.Width(70)))
+            if (GUILayout.Button("Apply", GUILayout.Width(100)))
             {
                 targetObject.ApplyPreprocessorDefines();
-            }
-
-            if (GUILayout.Button("Clear", GUILayout.Width(70)))
-            {
-                targetObject.RemovePreprocessorDefines();
             }
 
             EditorGUILayout.EndHorizontal();

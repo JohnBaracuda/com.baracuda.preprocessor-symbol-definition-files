@@ -23,6 +23,7 @@
       <option value="$PROJECT_DIR$/Assets/MothRequest/PreprocessorDefinitionFiles/Scripts/Utils/PreprocessorSymbolData.cs" />
       <option value="$PROJECT_DIR$/Assets/DebugExample.cs" />
       <option value="$PROJECT_DIR$/Assets/Example.cs" />
+      <option value="$PROJECT_DIR$/Assets/MothRequest/PreprocessorDefinitionFiles/Scripts/InspectorGUI/PreprocessorSymbolDefinitionFileInspector.cs" />
     </changedPaths>
   </component>
   <component name="ProjectId" id="1vBXiKPql8Lf4Upu8mBIcW9r14Y" />
@@ -72,7 +73,8 @@
       <option name="presentableId" value="Default" />
       <updated>1626036582393</updated>
       <workItem from="1626036586543" duration="782000" />
-      <workItem from="1626085930408" duration="759000" />
+      <workItem from="1626085930408" duration="1365000" />
+      <workItem from="1626088913537" duration="60000" />
     </task>
     <servers />
   </component>
