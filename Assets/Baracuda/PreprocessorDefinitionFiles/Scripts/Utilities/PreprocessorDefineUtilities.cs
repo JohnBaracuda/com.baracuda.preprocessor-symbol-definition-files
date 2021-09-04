@@ -195,7 +195,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
             {
                 if (IsGlobalSymbolSecurityRequired(global, localSymbols))
                 {
-                    if (PreprocessorSymbolDefinitionSettings.ElevatedSymbols.TryAdd(global) && PreprocessorSymbolDefinitionSettings.LogMessages)
+                    if (PreprocessorSymbolDefinitionSettings.ElevatedSymbols.AddUnique(global) && PreprocessorSymbolDefinitionSettings.LogMessages)
                     {
                         Debug.Log($"Elevating Scripting Define Symbol:  [{ColorElevated}{global}</color>]");
                     }

@@ -10,8 +10,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
     /// <summary>
     /// Settings file managing and elevated symbols and options regarding definition files.
     /// </summary>
-    // [CreateAssetMenu(menuName = "Preprocessor Definition Settings (Debug)", fileName = FILENAME, order = 90)]
-    internal sealed class PreprocessorSymbolDefinitionSettings : ScriptableObject
+    public sealed class PreprocessorSymbolDefinitionSettings : ScriptableObject
     {
         #region --- [SERIALIZE] ---
 
@@ -37,13 +36,13 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// <summary>
         /// Get a list of currently elevated symbols.
         /// </summary>
-        internal static List<string> ElevatedSymbols => Instance.elevatedSymbols;
+        public static List<string> ElevatedSymbols => Instance.elevatedSymbols;
         
         /// <summary>
         /// Removes the content of a Preprocessor Symbol Definition File when it is deleted.
         /// If this option is not enabled the symbols of a deleted file will be elevated and must be removed manually
         /// </summary>
-        internal static bool RemoveSymbolsOnDelete
+        public static bool RemoveSymbolsOnDelete
         {
             get => Instance.removeSymbolsOnDelete;
             set => Instance.removeSymbolsOnDelete = value;
@@ -53,7 +52,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// When enabled, lists of all defined symbols will be displayed in the inspector of the settings file as well as
         /// the inspector of Preprocessor Symbol Definition Files
         /// </summary>
-        internal static bool ShowAllDefinedSymbols
+        public static bool ShowAllDefinedSymbols
         {
             get => Instance.showAllDefinedSymbols;
             set => Instance.showAllDefinedSymbols = value;
@@ -63,7 +62,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// <summary>
         /// When enabled, unsaved changes will be applied when scripts are recompiling.
         /// </summary>
-        internal static bool SaveOnCompile
+        public static bool SaveOnCompile
         {
             get => Instance.saveOnCompile;
             set => Instance.saveOnCompile = value;
@@ -73,7 +72,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// <summary>
         /// When enabled, messages will be logged when symbols are removed, added or elevated.
         /// </summary>
-        internal static bool LogMessages
+        public static bool LogMessages
         {
             get => Instance.logMessages;
             set => Instance.logMessages = value;
@@ -82,7 +81,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// <summary>
         /// Get a list of all ScriptDefineSymbolFiles located in the project.
         /// </summary>
-        internal static ICollection<PreprocessorSymbolDefinitionFile> ScriptDefineSymbolFiles =>
+        public static ICollection<PreprocessorSymbolDefinitionFile> ScriptDefineSymbolFiles =>
             Instance.scriptDefineSymbolFiles.IsNullOrIncomplete()
                 ? Instance.scriptDefineSymbolFiles = Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionFile>()
                 : Instance.scriptDefineSymbolFiles;
@@ -93,7 +92,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
 
         #region --- [ELEVATED SYMBOLS] ---
 
-        internal static void RemoveElevatedSymbol(string symbol)
+        public static void RemoveElevatedSymbol(string symbol)
         {
             Instance.elevatedSymbols.TryRemove(symbol);
         }
@@ -104,16 +103,24 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
 
         #region --- [FILECACHING] ---
 
-        internal static void AddScriptDefineSymbolFile(PreprocessorSymbolDefinitionFile file)
+        public static void FindAllPreprocessorSymbolDefinitionFiles()
+        {
+            foreach (var file in Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionFile>())
+            {
+                AddScriptDefineSymbolFile(file);
+            }
+        }
+
+        public static void AddScriptDefineSymbolFile(PreprocessorSymbolDefinitionFile file)
         {
 #if UNITY_2020_1_OR_NEWER
-            (Instance.scriptDefineSymbolFiles ??= new List<PreprocessorSymbolDefinitionFile>()).TryAdd(file);
+            (Instance.scriptDefineSymbolFiles ??= new List<PreprocessorSymbolDefinitionFile>()).AddUnique(file);
 #else
-             (Instance.scriptDefineSymbolFiles ?? (Instance.scriptDefineSymbolFiles = new List<PreprocessorSymbolDefinitionFile>())).TryAdd(file);
+             (Instance.scriptDefineSymbolFiles ?? (Instance.scriptDefineSymbolFiles = new List<PreprocessorSymbolDefinitionFile>())).AddUnique(file);
 #endif
         }
         
-        internal static void RemoveScriptDefineSymbolFile(PreprocessorSymbolDefinitionFile file)
+        public static void RemoveScriptDefineSymbolFile(PreprocessorSymbolDefinitionFile file)
         {
 #if UNITY_2020_1_OR_NEWER
             (Instance.scriptDefineSymbolFiles ??= new List<PreprocessorSymbolDefinitionFile>()).TryRemove(file);
@@ -128,8 +135,8 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
 
         #region --- [SINGLETON] ---
 
-        internal static PreprocessorSymbolDefinitionSettings Instance
-#if UNITY_2020_1_OR_NEWER
+        public static PreprocessorSymbolDefinitionSettings Instance
+#if UNITY_2020_1_OR_NEWER 
             => _instance ??= Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionSettings>().FirstOrDefault() ?? CreateInstanceAsset();
 #else
             => _instance ? _instance : _instance = Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionSettings>().FirstOrDefault() ?? CreateInstanceAsset();
@@ -169,7 +176,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// <returns></returns>
         private static string CreateFilePath()
         {
-            foreach (var path in Paths)
+            foreach (var path in PreferredPaths)
             {
                 if (Directory.Exists(path))
                     return $"{path}/{FILENAME_ASSET}";
@@ -178,37 +185,17 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
             return DefaultPath;
         }
         
-        private const string FILENAME       = "Preprocessor-Definition-Settings";
         private const string FILENAME_ASSET = "Preprocessor-Definition-Settings.asset";
         private static readonly string DefaultPath = $"Assets/{FILENAME_ASSET}";
         
         
-        private static readonly string[] Paths =
+        private static readonly string[] PreferredPaths =
         {
-            "Assets/Plugins/Baracuda/PreprocessorDefinitionFiles/Config",
-            "Assets/Baracuda/PreprocessorDefinitionFiles/Config",
-            "Assets/PreprocessorDefinitionFiles/Config",
-            "Assets/Plugins/Baracuda/PreprocessorDefinitionFiles/Configurations",
-            "Assets/Baracuda/PreprocessorDefinitionFiles/Configurations",
-            "Assets/PreprocessorDefinitionFiles/Configurations",
-            "Assets/Plugins/Baracuda/PreprocessorDefinitionFiles/Configuration",
-            "Assets/Baracuda/PreprocessorDefinitionFiles/Configuration",
-            "Assets/PreprocessorDefinitionFiles/Configuration",
-            "Assets/Plugins/Baracuda/PreprocessorDefinitionFiles/Settings",
-            "Assets/Baracuda/PreprocessorDefinitionFiles/Settings",
-            "Assets/PreprocessorDefinitionFiles/Settings",
-            "Assets/Plugins/Baracuda/PreprocessorDefinitionFiles",
-            "Assets/Baracuda/PreprocessorDefinitionFiles",
             "Assets/PreprocessorDefinitionFiles",
-            "Assets/Config",
-            "Assets/Configurations",
-            "Assets/Configuration",
-            "Assets/Settings",
-            "Assets/Baracuda",
-            "Assets/Baracuda/Config",
-            "Assets/Baracuda/Configuration",
-            "Assets/Baracuda/Configurations",
-            "Assets/Baracuda/Settings",
+            "Assets/Baracuda/PreprocessorDefinitionFiles",
+            "Assets/Modules/PreprocessorDefinitionFiles",
+            "Assets/Plugins/PreprocessorDefinitionFiles",
+            "Assets/Plugins/Baracuda/PreprocessorDefinitionFiles",
         };
         
         #endregion

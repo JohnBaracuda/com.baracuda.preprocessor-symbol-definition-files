@@ -10,7 +10,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
     /// Instances of this class will manage and store individual preprocessor definition symbols.
     /// </summary>
     [CreateAssetMenu(menuName = "Preprocessor Definition", fileName = "Preprocessor-Definition", order = 89)]
-    internal sealed class PreprocessorSymbolDefinitionFile : ScriptableObject, IDisposable
+    public sealed class PreprocessorSymbolDefinitionFile : ScriptableObject, IDisposable
     {
         #region --- [FIELDS & PROPERTIES] ---
         
@@ -23,7 +23,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// <summary>
         /// Get a collection of preprocessor symbols contained within data objects storing additional information.
         /// </summary>
-        internal IEnumerable<PreprocessorSymbolData> LocalSymbols =>
+        public IEnumerable<PreprocessorSymbolData> LocalSymbols =>
             scriptSymbolDefinitions?.Where(x => !string.IsNullOrWhiteSpace(x.Symbol)) ?? new PreprocessorSymbolData[0];
         
         /// <summary>
@@ -104,7 +104,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// <summary>
         /// Remove all preprocessor defines managed and contained in this object.
         /// </summary>
-        internal void RemovePreprocessorDefines()
+        public void RemovePreprocessorDefines()
         {
             var currentSymbols = PreprocessorDefineUtilities.GetCustomDefinesOfActiveTargetGroup().ToList();
             var removedSymbols = currentSymbols.Where(symbol => GetValidPreprocessorDefines().Contains(symbol)).ToList();
@@ -115,12 +115,12 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
             
         }
 
-        internal void RemovePreprocessorSymbol(PreprocessorSymbolData symbol)
+        public void RemovePreprocessorSymbol(PreprocessorSymbolData symbol)
         {
             scriptSymbolDefinitions.TryRemove(symbol);
         }
         
-        internal void RemovePreprocessorSymbol(string symbol)
+        public void RemovePreprocessorSymbol(string symbol)
         {
             for (short i = 0; i < scriptSymbolDefinitions.Count; i++)
             {

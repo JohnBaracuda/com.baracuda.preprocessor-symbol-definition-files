@@ -11,7 +11,6 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
     /// </summary>
     public static class Extensions
     {
-        
         #region --- [COLLECTION EXTENSIONS] ---
 
         public static List<T> RemoveDuplicates<T>(this IEnumerable<T> target)
@@ -30,7 +29,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
         /// Add a value to a collection if it is not already contained.
         /// </summary>
         /// <returns>True if value was added.</returns>
-        public static bool TryAdd<T>(this ICollection<T> collection, T value)
+        public static bool AddUnique<T>(this ICollection<T> collection, T value)
         {
             if (collection.Contains(value))
             {
@@ -44,7 +43,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
         /// Add a value to a dictionary if it is not already contained.
         /// </summary>
         /// <returns>True if value was added.</returns>
-        public static bool TryAdd<TKey,TValue>(this IDictionary<TKey,TValue> dictionary, TKey key, TValue value)
+        public static bool AddUnique<TKey,TValue>(this IDictionary<TKey,TValue> dictionary, TKey key, TValue value)
         {
             if (dictionary.ContainsKey(key))
             {

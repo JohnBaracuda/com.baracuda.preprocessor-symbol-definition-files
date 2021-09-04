@@ -1,2 +1,0 @@
-//TODO: scan project for definition files on import.
-//TODO: add button to manually scan for for definition files.

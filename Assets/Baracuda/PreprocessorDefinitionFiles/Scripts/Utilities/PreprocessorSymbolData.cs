@@ -9,7 +9,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
     /// Class containing preprocessor symbols and additional related data.
     /// </summary>
     [Serializable]
-    internal sealed class PreprocessorSymbolData : ISerializationCallbackReceiver
+    public sealed class PreprocessorSymbolData : ISerializationCallbackReceiver
     {
         #region --- [SERIALIZED] ---
         

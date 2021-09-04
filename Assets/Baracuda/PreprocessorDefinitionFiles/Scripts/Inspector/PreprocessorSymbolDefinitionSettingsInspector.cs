@@ -59,11 +59,18 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
             DrawToggleControls();
             
             GUIExtensions.DrawGUISpace();
-
+            
             GUIExtensions.DrawGUIMessage(INFO_MESSAGE);
             GUIExtensions.DrawGUISpace(3);
             serializedObject.Update();
-            DrawElevatedSymbols();
+            securedSymbolList.DoLayoutList();
+            
+            if (GUILayout.Button(CheckForSymbolsContent, GUILayout.Width(200)))
+            {
+                PreprocessorDefineUtilities.ElevateIndependentSymbols();
+            }
+            
+            
             GUIExtensions.DrawGUISpace();
             
             sdsFileList.DoLayoutList();
@@ -106,24 +113,18 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
                 "Check For Elevated Symbols",
                 "Scan the project for symbols that should be elevated.");
         
-        private void DrawElevatedSymbols()
-        {
-            securedSymbolList.DoLayoutList();
-            
-            if (GUILayout.Button(CheckForSymbolsContent, GUILayout.Width(200)))
-            {
-                PreprocessorDefineUtilities.ElevateIndependentSymbols();
-            }
-        }
-        
         
         private void DrawSaveAll()
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Save All", GUILayout.Width(120)))
+            if (GUILayout.Button("Save Files"))
             {
                 PreprocessorDefineUtilities.ApplyAndUpdateAllDefinitionFiles();
+            }
+            if (GUILayout.Button("Validate Files"))
+            {
+                PreprocessorSymbolDefinitionSettings.FindAllPreprocessorSymbolDefinitionFiles();
             }
             GUILayout.EndHorizontal();
         }
