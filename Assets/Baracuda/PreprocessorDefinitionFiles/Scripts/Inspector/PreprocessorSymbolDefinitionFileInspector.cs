@@ -111,7 +111,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
                 GUILayout.Height(25), GUILayout.MinWidth(300));
             
             GUILayout.FlexibleSpace();
-            Documentation.DrawDocumentationButton("definitionfile");
+            Documentation.DrawDocumentationButton("definition-file");
             if (GUILayout.Button("Settings"))
             {
                 PreprocessorSymbolDefinitionSettings.Select();

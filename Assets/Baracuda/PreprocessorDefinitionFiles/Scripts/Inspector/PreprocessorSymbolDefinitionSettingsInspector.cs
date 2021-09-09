@@ -43,13 +43,14 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         #region --- [ON GUI] ---
 
         private const string INFO_MESSAGE =
-            "<b>Symbols in this list are considered elevated and will " +
-            "not be handled by definition files. If you would like to manage elevated symbols from a definition file, " +
-            "you can do so by removing them from this list and adding them to a definition file.</b> " +
-            "Note that active symbols, that are not listed in any definition file will automatically be elevated. " +
-            "This means, that if you've just installed this plugin, any previously set symbol will be elevated and must " +
-            "first be removed from this list if you want to manage it from a definition file.";
-        
+            "<b>Symbols in this list are considered elevated and will not be handled by definition files. " +
+            "If you would like to manage elevated symbols from a definition file, you can do so by removing them from this list " +
+            "and adding them to a definition file.</b> Note that active symbols that are not listed in any definition file will " +
+            "automatically be elevated. This means, that if you've just installed this asset, any previously active symbol will " +
+            "be elevated and must first be removed from this list before it can be handled by a definition file. " +
+            "This is especially important if you are working with third party plugins that handle their preprocessor symbols " +
+            "independently because it will prevent definition files from accidentally interfering with those symbols.";
+
         public override void OnInspectorGUI()
         {
             DrawTitle();
@@ -112,21 +113,33 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
             new GUIContent(
                 "Check For Elevated Symbols",
                 "Scan the project for symbols that should be elevated.");
+
+
+
+        private static readonly GUIContent ApplyUnsavedGUI = 
+            new GUIContent(
+                "Apply Unsaved Changes",
+                "Check if unsaved changes are present in any of the listed definition files and apply them.");
         
+        private static readonly GUIContent UpdateListGUI = 
+            new GUIContent(
+                "Update List",
+                "Manually check if any definition file is located in the project that is not listed above.");
         
         private void DrawSaveAll()
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button("Save Files"))
+            if (GUILayout.Button(ApplyUnsavedGUI))
             {
                 PreprocessorDefineUtilities.ApplyAndUpdateAllDefinitionFiles();
             }
-            if (GUILayout.Button("Validate Files"))
+            if (GUILayout.Button(UpdateListGUI))
             {
                 PreprocessorSymbolDefinitionSettings.FindAllPreprocessorSymbolDefinitionFiles();
             }
             GUILayout.EndHorizontal();
+            EditorGUILayout.Space();
         }
         
         //---------

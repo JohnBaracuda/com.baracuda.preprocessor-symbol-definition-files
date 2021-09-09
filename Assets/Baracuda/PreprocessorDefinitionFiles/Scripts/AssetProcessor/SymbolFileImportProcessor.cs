@@ -5,7 +5,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.AssetProcessor
     /// </summary>
     internal class SymbolFileImportProcessor : UnityEditor.AssetPostprocessor
     {
-#if !PREPROCESSOR_DEFINITION
+#if !PPSDF
         private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
         {
             UnityEditor.AssetDatabase.importPackageCompleted -= OnPackageImportCompleted;
