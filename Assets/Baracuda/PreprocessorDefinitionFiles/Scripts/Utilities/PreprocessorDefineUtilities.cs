@@ -285,8 +285,13 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
 #if UNITY_2020_2_OR_NEWER
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTarget, preprocessorDefines as string[] ?? preprocessorDefines.ToArray());
 #else
-            
-            var symbolString = (preprocessorDefines as string[] ?? preprocessorDefines).Aggregate("", (current, symbol) => current + $"{symbol};");
+                        
+            var symbolString = preprocessorDefines.Aggregate(string.Empty, (current, symbol) => $"{current}{symbol};");
+            if (symbolString.Length <= 0)
+            {
+                PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTarget, string.Empty);
+                return;
+            }
             symbolString = symbolString.Remove(symbolString.Length - 1);
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTarget, symbolString);
 #endif
