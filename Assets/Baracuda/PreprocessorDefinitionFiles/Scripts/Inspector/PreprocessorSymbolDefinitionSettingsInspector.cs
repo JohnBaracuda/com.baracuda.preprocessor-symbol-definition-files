@@ -80,6 +80,8 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
             DrawSaveAll();
             if(PreprocessorSymbolDefinitionSettings.ShowAllDefinedSymbols)
                 GUIExtensions.DrawGlobalSymbols();
+            
+            EditorUtility.SetDirty(target);
         }
 
         #endregion
