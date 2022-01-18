@@ -126,7 +126,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         private void DrawToggleButtons()
         {
             EditorGUILayout.BeginHorizontal();
-            if (GUILayout.Button("Toggle", GUILayout.Width(60)))
+            if (GUILayout.Button("Toggle All", GUILayout.Width(90)))
             {
                 foreach (var localSymbol in targetObject.LocalSymbols)
                 {
@@ -134,7 +134,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
                 }
             }
 
-            if (GUILayout.Button("Enable", GUILayout.Width(60)))
+            if (GUILayout.Button("Enable All", GUILayout.Width(90)))
             {
                 foreach (var localSymbol in targetObject.LocalSymbols)
                 {
@@ -142,7 +142,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
                 }
             }
 
-            if (GUILayout.Button("Disable", GUILayout.Width(60)))
+            if (GUILayout.Button("Disable All", GUILayout.Width(90)))
             {
                 foreach (var localSymbol in targetObject.LocalSymbols)
                 {
