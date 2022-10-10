@@ -55,3 +55,14 @@ The following packages were updated:
   com.unity.ide.visualstudio from version 2.0.8 to 2.0.12
   com.unity.ide.vscode from version 1.2.3 to 1.2.4
   com.unity.test-framework from version 1.1.24 to 1.1.29
+
+=== Mon Oct 10 18:19:33 2022
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.collab-proxy from version 1.14.4 to 1.14.18
+  com.unity.ide.visualstudio from version 2.0.12 to 2.0.15
+  com.unity.ide.vscode from version 1.2.4 to 1.2.5
+  com.unity.test-framework from version 1.1.29 to 1.1.31
