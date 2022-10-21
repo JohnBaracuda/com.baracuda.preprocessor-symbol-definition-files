@@ -13,13 +13,6 @@
     "preprocessor symbols",
     "defines"
   ],
-  "samples": [
-    {
-      "displayName": "Example Scene",
-      "description": "Contains an example scene with a FPS controller.",
-      "path": "Samples~/Example"
-    }
-  ],
   "author": {
     "name": "John Baracuda",
     "email": "johnbaracudagames@gmail.com",
