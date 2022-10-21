@@ -13,7 +13,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
     /// </summary>
     public static class PreprocessorDefineUtilities
     {
-        #region --- Compiler, Platform & Version Defines ---
+        #region Compiler, Platform & Version Defines
 
         /// <summary>
         /// Get a list of current compiler defines.
@@ -170,7 +170,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
 
         #endregion
 
-        #region --- Symbol Evaluation ---
+        #region Symbol Evaluation
 
         /// <summary>
         /// Creates a list of symbols with an elevated security level.
@@ -182,7 +182,8 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
             isProSkin = EditorGUIUtility.isProSkin;
 
             var files = PreprocessorSymbolDefinitionSettings.ScriptDefineSymbolFiles;
-            if(files.IsNullOrIncomplete())
+
+            if (files.IsNullOrIncomplete())
             {
                 return;
             }
@@ -275,7 +276,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
 
         #endregion
 
-        #region --- Build Target ---
+        #region Build Target
 
         /// <summary>
         /// Get the current Build Target Group of the application.
@@ -299,7 +300,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
 
         #endregion
 
-        #region --- Global Defines ---
+        #region Global Defines
 
         /// <summary>
         /// Returns a collection of currently applied and active Scripting Define Symbols.
@@ -361,7 +362,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
 
         #endregion
 
-        #region --- Misc ---
+        #region Misc
 
         private static bool isProSkin = true;
 

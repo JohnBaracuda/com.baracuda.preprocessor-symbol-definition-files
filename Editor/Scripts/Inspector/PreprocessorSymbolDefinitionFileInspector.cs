@@ -15,7 +15,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
     internal class PreprocessorSymbolDefinitionFileInspector : Editor
     {
         /*
-         *  Private Fields   
+         *  Private Fields
          */
 
         private PreprocessorSymbolDefinitionFile _targetObject = null;
@@ -24,7 +24,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         private readonly Stack<string> _checkedSymbols = new Stack<string>();
 
         /*
-         *  Initialization   
+         *  Initialization
          */
 
         private void OnEnable()
@@ -38,7 +38,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
             _localCustomList.drawElementCallback += DrawListItem;
             _localCustomList.drawHeaderCallback += DrawLocalList;
         }
-        
+
         private void OnDisable()
         {
             _localCustomList.drawElementCallback -= DrawListItem;
@@ -46,7 +46,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         }
 
         /*
-         *  GUI   
+         *  GUI
          */
 
         public override void OnInspectorGUI()
@@ -59,7 +59,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
             DrawSymbolList();
             DrawWarningMessages();
             GUIExtensions.DrawGUISpace();
-            
+
             if(PreprocessorSymbolDefinitionSettings.ShowAllDefinedSymbols)
             {
                 GUIExtensions.DrawGlobalSymbols();
@@ -67,9 +67,9 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         }
 
         /*
-         *  Draw List   
+         *  Draw List
          */
-        
+
         private void DrawLocalList(Rect rect)
         {
             DrawListHeader(rect, "Locally Defined Symbols");
@@ -87,9 +87,9 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         }
 
         /*
-         *  Draw Inspector   
+         *  Draw Inspector
          */
-        
+
         /// <summary>
         /// Draw the title and the settings button to enable easy access to the settings file from every definition file.
         /// </summary>
@@ -102,9 +102,8 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
                     fontSize = 16, fontStyle = FontStyle.Bold
                 },
                 GUILayout.Height(25), GUILayout.MinWidth(300));
-            
+
             GUILayout.FlexibleSpace();
-            Documentation.DrawDocumentationButton("definition-file");
             if (GUILayout.Button("Settings"))
             {
                 PreprocessorSymbolDefinitionSettings.Select();
@@ -172,32 +171,32 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         }
 
         /*
-         *  Draw Warning Message   
+         *  Draw Warning Message
          */
-        
+
         /// <summary>
-        /// Draw the cached warning messages if necessary. 
+        /// Draw the cached warning messages if necessary.
         /// </summary>
         private void DrawWarningMessages()
         {
-            // Set every symbol as valid before checking which are not. 
+            // Set every symbol as valid before checking which are not.
             foreach (var symbol in _targetObject.LocalSymbols)
             {
                 symbol.IsValid = true;
             }
-            
-            // Check for multiple entries in this file and draw warning message if necessary.  
+
+            // Check for multiple entries in this file and draw warning message if necessary.
             CheckMultipleEntriesLocal();
 
-            // Check for multiple entries in other files and draw warning message if necessary.  
+            // Check for multiple entries in other files and draw warning message if necessary.
             CheckMultipleEntriesGlobal();
 
-            // Check for usage of elevated symbols and draw warning message if necessary.  
+            // Check for usage of elevated symbols and draw warning message if necessary.
             CheckForElevatedSymbols();
         }
-        
+
         /// <summary>
-        /// Check for multiple entries in this file and draw warning message if necessary.  
+        /// Check for multiple entries in this file and draw warning message if necessary.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void CheckMultipleEntriesLocal()
@@ -224,9 +223,9 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
 
             _checkedSymbols.Clear();
         }
-        
+
         /// <summary>
-        /// Check for multiple entries in other files and draw warning message if necessary.  
+        /// Check for multiple entries in other files and draw warning message if necessary.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void CheckMultipleEntriesGlobal()
@@ -253,9 +252,9 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
 
             _checkedSymbols.Clear();
         }
-        
+
         /// <summary>
-        /// Check for usage of elevated symbols and draw warning message if necessary.  
+        /// Check for usage of elevated symbols and draw warning message if necessary.
         /// </summary>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void CheckForElevatedSymbols()
@@ -279,9 +278,9 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
 
                     GUILayout.BeginHorizontal();
                     if(GUILayout.Button(new GUIContent(
-                        $"Remove from this file", 
+                        $"Remove from this file",
                         $"Remove [{defineData.Symbol}] from this file. " +
-                        $"Chose this option, if this symbol is handled by a third party plugin."), 
+                        $"Chose this option, if this symbol is handled by a third party plugin."),
                         GUILayout.Height(30), GUILayout.MinWidth(200)))
                     {
                         _targetObject.RemovePreprocessorSymbol(defineData);

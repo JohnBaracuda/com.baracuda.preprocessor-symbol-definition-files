@@ -12,53 +12,36 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
     /// </summary>
     public sealed class PreprocessorSymbolDefinitionSettings : ScriptableObject, ISerializationCallbackReceiver
     {
-        #region --- Data ---
+        #region Data
 
-        /*
-         *  Inspector Fields   
-         */
+        [SerializeField] private bool removeSymbolsOnDelete = true;
+        [SerializeField] private bool logMessages = true;
+        [SerializeField] private bool showAllDefinedSymbols = true;
 
-        [SerializeField] [HideInInspector] private bool removeSymbolsOnDelete = true;
-
-        [SerializeField] [HideInInspector] private List<string> elevatedSymbols = new List<string>();
-        [SerializeField] [HideInInspector]
-        private List<PreprocessorSymbolDefinitionFile> scriptDefineSymbolFiles = null;
-#if UNITY_2020_2_OR_NEWER
-        [SerializeField] [HideInInspector] private bool saveOnCompile = true;
-#endif
-        [SerializeField] [HideInInspector] private bool logMessages = true;
-
-        [SerializeField] [HideInInspector] private bool showAllDefinedSymbols = true;
-
-        /*
-         *  Fields (Inspector)   
-         */
-
-        internal const string NameElevatedSymbols = nameof(elevatedSymbols);
-        internal const string NameSdsFiles = nameof(scriptDefineSymbolFiles);
+        [SerializeField] private List<string> elevatedSymbols = new List<string>();
 
 
         private const string FilenameAsset = "Preprocessor-Definition-Settings.asset";
+        private static readonly List<PreprocessorSymbolDefinitionFile> scriptDefineSymbolFiles = new List<PreprocessorSymbolDefinitionFile>(8);
         private static readonly string defaultPath = $"Assets/{FilenameAsset}";
-
-
         private static readonly string[] preferredPaths =
         {
-            "Assets/PreprocessorDefinitionFiles",
-            "Assets/Baracuda/PreprocessorDefinitionFiles",
-            "Assets/Modules/PreprocessorDefinitionFiles",
-            "Assets/Plugins/PreprocessorDefinitionFiles",
-            "Assets/Plugins/Baracuda/PreprocessorDefinitionFiles",
+            "Assets/Settings",
+            "Assets/Config",
+            "Assets/Configurations",
+            "Assets/Plugins/Settings",
+            "Assets/Plugins/Config",
+            "Assets/Plugins/Configurations",
         };
 
         /*
-         *  Properties   
+         *  Properties
          */
 
         /// <summary>
         /// Get a list of currently elevated symbols.
         /// </summary>
-        public static List<string> ElevatedSymbols => FindOrCreateSettingsAsset().elevatedSymbols;
+        public static List<string> ElevatedSymbols => Singleton.elevatedSymbols;
 
         /// <summary>
         /// Removes the content of a Preprocessor Symbol Definition File when it is deleted.
@@ -66,8 +49,8 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// </summary>
         public static bool RemoveSymbolsOnDelete
         {
-            get => FindOrCreateSettingsAsset().removeSymbolsOnDelete;
-            set => FindOrCreateSettingsAsset().removeSymbolsOnDelete = value;
+            get => Singleton.removeSymbolsOnDelete;
+            set => Singleton.removeSymbolsOnDelete = value;
         }
 
         /// <summary>
@@ -76,47 +59,29 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
         /// </summary>
         public static bool ShowAllDefinedSymbols
         {
-            get => FindOrCreateSettingsAsset().showAllDefinedSymbols;
-            set => FindOrCreateSettingsAsset().showAllDefinedSymbols = value;
+            get => Singleton.showAllDefinedSymbols;
+            set => Singleton.showAllDefinedSymbols = value;
         }
-
-#if UNITY_2020_2_OR_NEWER
-        /// <summary>
-        /// When enabled, unsaved changes will be applied when scripts are recompiling.
-        /// </summary>
-        public static bool SaveOnCompile
-        {
-            get => FindOrCreateSettingsAsset().saveOnCompile;
-            set => FindOrCreateSettingsAsset().saveOnCompile = value;
-        }
-#endif
 
         /// <summary>
         /// When enabled, messages will be logged when symbols are removed, added or elevated.
         /// </summary>
         public static bool LogMessages
         {
-            get => FindOrCreateSettingsAsset().logMessages;
-            set => FindOrCreateSettingsAsset().logMessages = value;
+            get => Singleton.logMessages;
+            set => Singleton.logMessages = value;
         }
 
         /// <summary>
         /// Get a list of all ScriptDefineSymbolFiles located in the project.
         /// </summary>
-        public static ICollection<PreprocessorSymbolDefinitionFile> ScriptDefineSymbolFiles =>
-            FindOrCreateSettingsAsset().scriptDefineSymbolFiles.IsNullOrIncomplete()
-                ? FindOrCreateSettingsAsset().scriptDefineSymbolFiles = Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionFile>()
-                : FindOrCreateSettingsAsset().scriptDefineSymbolFiles;
+        public static IList<PreprocessorSymbolDefinitionFile> ScriptDefineSymbolFiles => scriptDefineSymbolFiles;
 
         #endregion
 
-        #region --- Singleton ---
+        #region Singleton
 
-        public static PreprocessorSymbolDefinitionSettings FindOrCreateSettingsAsset()
-            => instance
-                ? instance
-                : instance = Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionSettings>()
-                    .FirstOrDefault() ?? CreateInstanceAsset();
+        public static PreprocessorSymbolDefinitionSettings Singleton => instance ? instance : instance = Helper.FindAllAssetsOfType<PreprocessorSymbolDefinitionSettings>().FirstOrDefault() ?? CreateInstanceAsset();
 
         private static PreprocessorSymbolDefinitionSettings instance = null;
 
@@ -140,22 +105,23 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
 
             return defaultPath;
         }
-        
+
         #endregion
 
         /*
-         *  Symbol Handling   
+         *  Symbol Handling
          */
 
         public static void RemoveElevatedSymbol(string symbol)
         {
-            FindOrCreateSettingsAsset().elevatedSymbols.TryRemove(symbol);
+            Singleton.elevatedSymbols.TryRemove(symbol);
         }
 
         public static void FindAllPreprocessorSymbolDefinitionFiles()
         {
-            FindOrCreateSettingsAsset().scriptDefineSymbolFiles?.Clear();
-            foreach (var file in Extensions.FindAllAssetsOfType<PreprocessorSymbolDefinitionFile>())
+            scriptDefineSymbolFiles?.Clear();
+
+            foreach (var file in Helper.FindAllAssetsOfType<PreprocessorSymbolDefinitionFile>())
             {
                 if (file == null)
                 {
@@ -168,16 +134,14 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
 
         public static void AddScriptDefineSymbolFile(PreprocessorSymbolDefinitionFile file)
         {
-            (FindOrCreateSettingsAsset().scriptDefineSymbolFiles ?? (FindOrCreateSettingsAsset().scriptDefineSymbolFiles =
-                new List<PreprocessorSymbolDefinitionFile>())).AddUnique(file);
+            scriptDefineSymbolFiles.AddUnique(file);
         }
 
         public static void RemoveScriptDefineSymbolFile(PreprocessorSymbolDefinitionFile file)
         {
-            (FindOrCreateSettingsAsset().scriptDefineSymbolFiles ?? (FindOrCreateSettingsAsset().scriptDefineSymbolFiles =
-                new List<PreprocessorSymbolDefinitionFile>())).TryRemove(file);
+            scriptDefineSymbolFiles.TryRemove(file);
         }
-        
+
         /*
          *  Before Auto Save
          */
@@ -188,42 +152,30 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts
             {
                 AssetDatabase.MoveAsset(AssetDatabase.GetAssetPath(this), CreateFilePath());
             }
-            
-#if UNITY_2020_2_OR_NEWER
-            UnityEditor.Compilation.CompilationPipeline.compilationStarted += OnCompilationStarted;
-#endif
         }
 
-#if UNITY_2020_2_OR_NEWER
-        private void OnDisable()
-        {
-            UnityEditor.Compilation.CompilationPipeline.compilationStarted -= OnCompilationStarted;
-        }
-
-        private static void OnCompilationStarted(object obj)
-        {
-            if (SaveOnCompile && !BuildPipeline.isBuildingPlayer)
-            {
-                PreprocessorDefineUtilities.ApplyAndUpdateAllDefinitionFiles();
-            }
-        }
-#endif
 
         /*
-         *  Misc   
+         *  Misc
          */
 
         public static void Select()
         {
-            Selection.activeObject = FindOrCreateSettingsAsset();
+            Selection.activeObject = Singleton;
         }
-        
+
         public void OnBeforeSerialize()
         {
+
         }
+
         public void OnAfterDeserialize()
         {
             instance = this;
         }
+
+        #region Obsolete
+
+        #endregion
     }
 }

@@ -35,6 +35,7 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
         internal string Symbol => symbol;
         internal bool Enabled => enabled;
         internal FlagsBuildTargetGroup TargetGroup => targetGroup;
+
         internal bool IsValid
         {
             get => isValid;
@@ -67,17 +68,5 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
          */
 
         internal void SetEnabled(bool value) => enabled = value;
-
-#pragma warning disable CS0659
-        public override bool Equals(object obj)
-#pragma warning restore CS0659
-            => obj is PreprocessorSymbolData other && Equals(other);
-
-
-
-        private bool Equals(PreprocessorSymbolData other)
-        {
-            return symbol == other.symbol && targetGroup == other.targetGroup;
-        }
     }
 }
