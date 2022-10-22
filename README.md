@@ -17,9 +17,8 @@ This package provides an easy way to manage custom #defines in a Unity project f
 &nbsp;
 ## Installation
 
-### Option 1. **Install via Open UPM (coming soon)** [![openupm](https://img.shields.io/npm/v/com.baracuda.preprocessor-symbol-definition-files
-?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.baracuda.preprocessor-symbol-definition-files
-/)
+### Option 1. **Install via Open UPM (coming soon)** [![openupm](https://img.shields.io/npm/v/com.baracuda.preprocessor-symbol-definition-files?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.baracuda.preprocessor-symbol-definition-files/)
+
 
 - open <kbd>Edit/Project Settings/Package Manager</kbd>
 - add a new Scoped Registry:
