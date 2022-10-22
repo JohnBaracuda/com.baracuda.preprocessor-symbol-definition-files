@@ -32,8 +32,6 @@ This package provides an easy way to manage custom #defines in a Unity project f
 - click <kbd>+</kbd>
 - click <kbd>Add package by name...</kbd>
 - paste and <kbd>Add</kbd>  `com.baracuda.preprocessor-symbol-definition-files
-`
-- take a look at [Setup](#customized-setup) to see what comes next
 
 #### Option 2. Install via Git URL
 
@@ -41,7 +39,6 @@ This package provides an easy way to manage custom #defines in a Unity project f
 - click <kbd>+</kbd>
 - click <kbd>Add package from git URL</kbd>
 - paste and <kbd>Add</kbd> `https://github.com/JohnBaracuda/baracuda.preprocessor-symbol-definition-files.git`
-- take a look at [Setup](#customized-setup) to see what comes next
 
 #### Option 3. Get Preprocessor Symbol Files from the [Asset Store](https://assetstore.unity.com/packages/slug/199583)
 
