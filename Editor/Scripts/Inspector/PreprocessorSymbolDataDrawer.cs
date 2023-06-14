@@ -33,11 +33,12 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
             EditorGUI.indentLevel = 0;
 
             // Calculate rects
-            var enabledRect = new Rect(position.x, position.y, 20, position.height);
-            var appliedRect = new Rect(position.x + 18, position.y, 18, position.height);
-            var textRect = new Rect(position.x + 30, position.y, 290, position.height);
-            var targetLabelRect = new Rect(position.x + 330, position.y, 45, position.height);
-            var targetRect = new Rect(position.x + 375, position.y, position.width - 375, position.height);
+            var enabledW = 20; var appliedW = 20; var textLeft = enabledW + appliedW - 10; var textRight = 10; var targetW = 100; var targetLabelW = 45;
+            var enabledRect = new Rect(position.x, position.y, enabledW, position.height);
+            var appliedRect = new Rect(position.x + enabledW, position.y, appliedW, position.height);
+            var textRect = new Rect(position.x + textLeft, position.y, (position.width - textLeft - targetLabelW - targetW - textRight), position.height);
+            var targetLabelRect = new Rect(position.x + (position.width - targetLabelW - targetW), position.y, targetLabelW, position.height);
+            var targetRect = new Rect(position.x + (position.width - targetW), position.y, targetW, position.height);
 
             var targetGroup = (FlagsBuildTargetGroup)property.FindPropertyRelative("targetGroup").intValue;
             var color = GUI.contentColor;
@@ -92,16 +93,14 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Inspector
         /// </summary>
         private void DrawChangesIndicationGUI(FlagsBuildTargetGroup targetGroup, bool isDefined, bool activeAndEnabled, string symbol, Rect appliedRect, Color color)
         {
-            if (isDefined && !activeAndEnabled && targetGroup.HasFlag(PreprocessorDefineUtilities.FlagsBuildTargetCache))
-            {
+            if (isDefined && !activeAndEnabled && targetGroup.HasFlag(PreprocessorDefineUtilities.FlagsBuildTargetCache)) {
                 GUI.contentColor = color;
                 EditorGUI.LabelField(appliedRect, new GUIContent("*", $"Changes must be applied!"));
                 GUI.contentColor = inactiveColor;
                 return;
             }
 
-            if (!isDefined && activeAndEnabled && targetGroup.HasFlag(PreprocessorDefineUtilities.FlagsBuildTargetCache))
-            {
+            if (!isDefined && activeAndEnabled && targetGroup.HasFlag(PreprocessorDefineUtilities.FlagsBuildTargetCache)) {
                 EditorGUI.LabelField(appliedRect, new GUIContent("*", $"{symbol} is not Defined! Apply to define the symbol"));
                 return;
             }
