@@ -331,11 +331,11 @@ namespace Baracuda.PreprocessorDefinitionFiles.Scripts.Utilities
             {
                 foreach (var addedSymbol in addedSymbols ?? Array.Empty<string>())
                 {
-                    Debug.Log($"Adding [{ColorAdded}{addedSymbol}</color>] to Scripting Define Symbols");
+                    Debug.Log($"Adding [{ColorAdded}{addedSymbol}</color>] to Scripting Define Symbols for target {BuildTarget}");
                 }
                 foreach (var removedSymbol in removedSymbols ?? Array.Empty<string>())
                 {
-                    Debug.Log($"Removing [{ColorRemoved}{removedSymbol}</color>] from Scripting Define Symbols");
+                    Debug.Log($"Removing [{ColorRemoved}{removedSymbol}</color>] from Scripting Define Symbols for target {BuildTarget}");
                 }
             }
 
